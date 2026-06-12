@@ -4,7 +4,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
   def change do
     create_if_not_exists table(:imported_visitors,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -21,7 +21,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_sources,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, source)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -42,7 +42,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_pages,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, hostname, page)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -60,7 +60,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_entry_pages,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, entry_page)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -77,7 +77,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_exit_pages,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, exit_page)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -92,7 +92,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_locations,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, country, region, city)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -111,7 +111,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_devices,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, device)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -128,7 +128,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_browsers,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, browser)
                            #{Plausible.MigrationUtils.table_settings_expr()}
@@ -145,7 +145,7 @@ defmodule Plausible.ClickhouseRepo.Migrations.CreateImportedVisitors do
 
     create_if_not_exists table(:imported_operating_systems,
                            primary_key: false,
-                           engine: "MergeTree",
+                           engine: "ReplicatedMergeTree",
                            options: """
                            ORDER BY (site_id, date, operating_system)
                            #{Plausible.MigrationUtils.table_settings_expr()}

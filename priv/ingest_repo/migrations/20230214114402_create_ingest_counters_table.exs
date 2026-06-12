@@ -4,7 +4,9 @@ defmodule Plausible.IngestRepo.Migrations.CreateIngestCountersTable do
   def change do
     create_if_not_exists table(:ingest_counters,
                            primary_key: false,
-                           engine: "SummingMergeTree(value)",
+                           # APPMANA: Replicated so ingestion counters replicate
+                           # across nodes (written on every WriteBuffer flush).
+                           engine: "ReplicatedSummingMergeTree(value)",
                            options: """
                              ORDER BY (domain, toDate(event_timebucket), metric, toStartOfMinute(event_timebucket))
                              #{Plausible.MigrationUtils.table_settings_expr()}

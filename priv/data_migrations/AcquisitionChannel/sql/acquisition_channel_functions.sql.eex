@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS acquisition_channel_source_category
 <%= if @on_cluster_statement != "" do %>
 ENGINE = ReplicatedMergeTree('/clickhouse/{cluster}/tables/{shard}/plausible_prod/acquisition_channel_source_category', '{replica}')
 <% else %>
-ENGINE = MergeTree()
+<%# APPMANA: Replicated so the dictionary source data replicates across nodes. %>
+ENGINE = ReplicatedMergeTree()
 <% end %>
 ORDER BY referrer_source
 <%= @table_settings %>;
@@ -40,7 +41,8 @@ CREATE TABLE IF NOT EXISTS acquisition_channel_paid_sources
 <%= if @on_cluster_statement != "" do %>
 ENGINE = ReplicatedMergeTree('/clickhouse/{cluster}/tables/{shard}/plausible_prod/acquisition_channel_paid_sources', '{replica}')
 <% else %>
-ENGINE = MergeTree()
+<%# APPMANA: Replicated so the dictionary source data replicates across nodes. %>
+ENGINE = ReplicatedMergeTree()
 <% end %>
 ORDER BY referrer_source
 <%= @table_settings %>;

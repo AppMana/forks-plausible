@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS location_data <%= if @cluster? do %>ON CLUSTER '{clus
 <%= if @cluster? do %>
 ENGINE = ReplicatedMergeTree('/clickhouse/{cluster}/tables/{shard}/plausible_prod/location_data', '{replica}')
 <% else %>
-ENGINE = MergeTree()
+<%# APPMANA: Replicated (no args) inside our `Replicated` database. %>
+ENGINE = ReplicatedMergeTree()
 <% end %>
 ORDER BY (type, id)
 SETTINGS index_granularity = 128 <%= @table_settings %>
