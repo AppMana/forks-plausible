@@ -12,31 +12,9 @@ defmodule Plausible.License do
 
   require Logger
 
-  if Mix.env() == :prod do
-    def ensure_valid_license do
-      if has_valid_license?() do
-        :ok
-      else
-        Logger.error(
-          "Invalid or no license key provided for Plausible Enterprise Edition. Please contact hello@plausible.io to acquire a license."
-        )
-
-        Logger.error("Shutting down")
-        System.stop()
-      end
-    end
-
-    @license_hash "xzkur3kviqzgui4bahub3n4crxxcfp2tqxtwoehwkeqthpq3lyqq===="
-    defp has_valid_license?() do
-      hash =
-        :crypto.hash(:sha256, Application.fetch_env!(:plausible, :license_key))
-        |> Base.encode32(case: :lower)
-
-      hash == @license_hash
-    end
-  else
-    def ensure_valid_license do
-      :ok
-    end
+  # APPMANA SELF-HOST: unlicensed internal/testing EE build. The license gate is
+  # removed so the full app runs without a key. Not for redistribution.
+  def ensure_valid_license do
+    :ok
   end
 end
