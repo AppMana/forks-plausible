@@ -15,9 +15,15 @@ defmodule Plausible.IngestRepo do
     end
   end
 
-  def clustered_table?(table) do
-    replica_count(table) > 1
-  end
+  # APPMANA: we run on a ClickHouse `Replicated` database engine (the plausible
+  # DB is created with ENGINE = Replicated, see the deployment manifest). That
+  # engine replicates every DDL statement to all replicas by itself, and our
+  # data tables (events_v2/sessions_v2) use ReplicatedMergeTree for data
+  # replication. ON CLUSTER queries are FORBIDDEN inside a Replicated database,
+  # so we must always report "not clustered" — upstream's system.replicas
+  # auto-detection would return true once the tables exist and inject ON CLUSTER
+  # into later ALTER migrations, which then fail.
+  def clustered_table?(_table), do: false
 
   def replica_count(table) do
     {:ok, %{rows: [[count]]}} =

@@ -12,6 +12,10 @@ defmodule Plausible.IngestRepo.Migrations.CreateV2Schemas do
 
   use Plausible.DataMigration, dir: "NumericIDs"
 
+  # APPMANA: false → the templates take their non-ON-CLUSTER branch, which we
+  # patched to emit ReplicatedMergeTree (no args). Inside our Replicated database
+  # that gives full data replication without any forbidden ON CLUSTER. See
+  # Plausible.IngestRepo.clustered_table?/1.
   @cluster? false
 
   def up do

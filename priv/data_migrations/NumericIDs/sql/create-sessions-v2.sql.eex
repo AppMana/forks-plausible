@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS sessions_v2 <%= if @cluster? do %>ON CLUSTER '{cluste
 <%= if @cluster? do %>
 ENGINE = ReplicatedCollapsingMergeTree('/clickhouse/{cluster}/tables/{shard}/plausible_prod/sessions_v2', '{replica}', sign)
 <% else %>
-ENGINE = CollapsingMergeTree(sign)
+<%# APPMANA: Replicated engine with no args inside our `Replicated` database. %>
+ENGINE = ReplicatedCollapsingMergeTree(sign)
 <% end %>
 PARTITION BY toYYYYMM(start)
 PRIMARY KEY (site_id, toDate(start), user_id, session_id)

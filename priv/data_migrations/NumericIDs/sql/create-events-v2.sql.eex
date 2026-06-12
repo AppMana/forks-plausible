@@ -30,7 +30,10 @@ CREATE TABLE IF NOT EXISTS events_v2 <%= if @cluster? do %>ON CLUSTER '{cluster}
 <%= if @cluster? do %>
 ENGINE = ReplicatedMergeTree('/clickhouse/{cluster}/tables/{shard}/{database}/events_v2', '{replica}')
 <% else %>
-ENGINE = MergeTree()
+<%# APPMANA: ReplicatedMergeTree with no args inside our `Replicated` database. %>
+<%# The engine path/replica default from the database; data replicates across %>
+<%# all replicas with no ON CLUSTER (which Replicated databases forbid). %>
+ENGINE = ReplicatedMergeTree()
 <% end %>
 PARTITION BY toYYYYMM(timestamp)
 PRIMARY KEY (site_id, toDate(timestamp), name, user_id)
