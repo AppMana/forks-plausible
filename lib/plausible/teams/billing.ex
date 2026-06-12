@@ -625,11 +625,18 @@ defmodule Plausible.Teams.Billing do
     |> union(^team_invitations_q)
   end
 
+  # APPMANA SELF-HOST: unlock every feature regardless of plan/subscription.
+  # This is an unlicensed internal/testing EE build (ee/ enabled, billing checks
+  # removed). Do not redistribute.
   def allowed_features_for(nil) do
-    @free_features
+    Feature.list()
   end
 
-  def allowed_features_for(team) do
+  def allowed_features_for(_team) do
+    Feature.list()
+  end
+
+  def _unused_allowed_features_for(team) do
     team = Teams.with_subscription(team)
 
     features =
