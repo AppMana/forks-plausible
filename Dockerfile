@@ -44,7 +44,8 @@ COPY priv ./priv
 COPY lib ./lib
 COPY extra ./extra
 
-RUN npm run deploy --prefix ./tracker && \
+RUN mkdir -p priv/tracker/installation_support priv/tracker/js && \
+  npm run deploy --prefix ./tracker && \
   mix assets.deploy && \
   mix phx.digest priv/static && \
   mix download_country_database && \
