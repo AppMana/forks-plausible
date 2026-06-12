@@ -14,8 +14,9 @@ defmodule Plausible.IngestRepo.Migrations.AddImportedCustomEvents do
         SETTINGS replicated_deduplication_window = 0 #{table_settings}
         """
       else
+        # APPMANA: Replicated (no args) inside our `Replicated` database.
         """
-        ENGINE = MergeTree()
+        ENGINE = ReplicatedMergeTree()
         ORDER BY (site_id, import_id, date, name)
         SETTINGS replicated_deduplication_window = 0 #{table_settings}
         """
